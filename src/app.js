@@ -12,7 +12,7 @@ app.use(cors({
     credentials: true
 }))
 
-//limit how much jason data can accept
+//limit how much json data can accept
 app.use(express.json({
     limit: "16kb"
 }))
