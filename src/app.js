@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser"
 
 
 
+
 const app= express();
 
 //for security to specify which domains are allowed to access your server
@@ -22,5 +23,12 @@ app.use(express.urlencoded({extended:true,limit:"16kb"}))
 
 app.use(express.static("public"))
 app.use(cookieParser())
+
+//routes
+
+import userRouter from "./routes/user.routes.js";
+
+//routes declaration
+app.use("/api/v1/users",userRouter)
 
 export {app}
