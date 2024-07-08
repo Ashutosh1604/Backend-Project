@@ -29,7 +29,7 @@ const userSchema= new Schema(
             type:String,
             required:true,
         },
-        conerImage:{
+        coverImage:{
             type:String,
         },
         watchHistory:{
@@ -54,7 +54,7 @@ const userSchema= new Schema(
     },{timestamps:true}
 );
 
-//encryptinf the password using bcrypt inside a pre hook provided by momgoose
+//encryptin the password using bcrypt inside a pre hook provided by momgoose
 userSchema.pre("save", async function (next) {
     if(this.isModified("password")){
 
