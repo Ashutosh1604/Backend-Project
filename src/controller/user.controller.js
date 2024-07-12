@@ -4,6 +4,7 @@ import { User} from "../models/user.model.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken"
+import mongoose from "mongoose";
 
 
 const generateAccessAndRefreshTokens = async(userId) =>{
@@ -158,7 +159,7 @@ const logoutUser= asyncHandler(async(req,res)=>{
  
     await User.findByIdAndUpdate(req.user._id,
         {
-           $set:{refreshToken:undefined}
+           $unset:{refreshToken:1} //this removes the field from doc
         },
         {
            new: true
@@ -326,6 +327,7 @@ const getUserChannelProfile= asyncHandler(async(req,res)=>{
         throw new ApiError(400,"username is missing")
     }
 
+    //channel will be a array
     const channel=await User.aggregate([
         {
             $match:{
@@ -372,6 +374,7 @@ const getUserChannelProfile= asyncHandler(async(req,res)=>{
                 username:1,
                 subscribersCount:1,
                 channelsSubscribedToCount:1,
+                isSubscribed:1,
                 avatar:1,
                 coverImage:1,
                 email:1
@@ -444,6 +447,7 @@ const getWatchHistory = asyncHandler(async(req, res) => {
         )
     )
 })
+
 
 
 export {registerUser,loginUser,logoutUser,refreshAccessToken,changeCurrentPassword,getCurrentUser,
